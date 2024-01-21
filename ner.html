@@ -1,0 +1,37 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ner',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            task: {value: "token-classification"},
+            model: {value: "vgorce/distilbert-base-multi-cased-ner"}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "file.svg",
+        label: function() {
+            return this.name||"ner";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="ner">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name"/>
+    </div>
+    <div class="form-row">
+        <label for="node-input-task"><i class="fa fa-tag"></i> Task</label>
+        <input type="text" id="node-input-task" placeholder="Task"/>
+    </div>
+    <div class="form-row">
+        <label for="node-input-model"><i class="fa fa-tag"></i> Model</label>
+        <input type="text" id="node-input-model" placeholder="Model"/>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ner">
+    <p>NERs your input data.</p>
+    <p>A simple node that converts the message payloads into all lower-case characters</p>
+</script>
