@@ -11,6 +11,7 @@ module.exports = function(RED) {
         var node = this;
 
         this.bucketName = config.bucketName;
+        this.prefix = config.prefix;
         this.minioClient = new minio.Client({
             endPoint: config.endPoint,
             port: config.port,
@@ -20,12 +21,12 @@ module.exports = function(RED) {
         });
 
         node.on('input', function(msg) {
-            var filename;
+            var filename = this.prefix || "";
             if (msg.filename) {
-                filename = msg.filename;
+                filename += msg.filename;
             } else if (msg.responseUrl) {
                 const splat = new URL(msg.responseUrl).pathname.split("/");
-                filename = splat[splat.length - 1];
+                filename += splat[splat.length - 1];
             } else {
                 this.warn("could not determine filename");
             }
@@ -40,7 +41,6 @@ module.exports = function(RED) {
 
                     node.status({fill:"red",text:"error pushing file " + filename});
                 } else {
-                    //node.info("Successfully pushed " + filename);
                     node.status({fill:"black", text:"pushed successfully."});
                 }
             });

@@ -5,6 +5,7 @@
         defaults: {
             name: {value:""},
             bucketName: {value: ""},
+            prefix: {value: ""},
             endPoint: {value: 'play.min.io'},
             port: {value: 9000, validate:RED.validators.number()},
             useSSL: {value: true},
@@ -28,6 +29,10 @@
     <div class="form-row">
         <label for="node-input-bucketName"><i class="fa fa-tag"></i> Bucket Name</label>
         <input type="text" id="node-input-bucketName" placeholder="Bucket Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-prefix"><i class="fa fa-tag"></i> Prefix</label>
+        <input type="text" id="node-input-prefix" placeholder="Prefix">
     </div>
     <div class="form-row">
         <label for="node-input-endPoint"><i class="fa fa-tag"></i> Endpoint</label>
