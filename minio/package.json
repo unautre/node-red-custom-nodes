@@ -1,0 +1,31 @@
+{
+  "name": "@unautre/node-red-contrib-minio",
+  "version": "0.0.1",
+  "description": "Node Red for minio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unautre/node-red-custom-nodes.git"
+  },
+  "keywords": [
+    "nodered",
+    "minio"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unautre/node-red-custom-nodes/issues"
+  },
+  "homepage": "https://github.com/unautre/node-red-custom-nodes#readme",
+  "node-red": {
+    "nodes": {
+      "minio": "minio.js"
+    }
+  },
+  "dependencies": {
+    "minio": "^8.0.0"
+  }
+}
