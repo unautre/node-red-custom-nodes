@@ -1,0 +1,117 @@
+<script type="text/javascript">
+
+    RED.nodes.registerType('minio-config',{
+        category: 'config',
+        color: '#a6bbcf',
+        defaults: {
+            bucketName: {value: "", required:true},
+            endPoint: {value: 'play.min.io', required:true},
+            port: {value: 9000, validate:RED.validators.number(), required:true},
+            useSSL: {value: true},
+            accessKey: {value: "Q3AM3UQ867SPQQA43P2F", required:true},
+            secretKey: {value: "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG", required:true}
+        },
+        label: function() {
+            return "s3a://" + this.bucketName;
+        }
+    });
+
+    RED.nodes.registerType('minio-push',{
+        category: 'network',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            prefix: {value: ""},
+            bucket: {type:"minio-config", required:true}
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: "file.svg",
+        label: function() {
+            return this.name||"Push to Minio";
+        }
+    });
+
+    RED.nodes.registerType('minio-listen',{
+        category: 'network',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            prefix: {value: ""},
+            suffix: {value: ""},
+            bucket: {type:"minio-config", required:true}
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: "file.svg",
+        label: function() {
+            return this.name||"Listen to Minio";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="minio-config">
+    <div class="form-row">
+        <label for="node-config-input-bucketName"><i class="fa fa-tag"></i> Bucket Name</label>
+        <input type="text" id="node-config-input-bucketName" placeholder="Bucket Name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-endPoint"><i class="fa fa-tag"></i> Endpoint</label>
+        <input type="text" id="node-config-input-endPoint" placeholder="Endpoint">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"><i class="fa fa-tag"></i> Port</label>
+        <input type="number" id="node-config-input-port" placeholder="Port">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-useSSL"><i class="fa fa-tag"></i> use SSL</label>
+        <input type="checkbox" id="node-config-input-useSSL" placeholder="use SSL">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-accessKey"><i class="fa fa-tag"></i> Access Key</label>
+        <input type="text" id="node-config-input-accessKey" placeholder="Access Key">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-secretKey"><i class="fa fa-tag"></i> Secret Key</label>
+        <input type="text" id="node-config-input-secretKey" placeholder="Secret Key">
+    </div>
+</script>
+<script type="text/html" data-help-name="minio-config">
+    <p>A config node to specify a Minio bucket.</p>
+</script>
+
+<script type="text/html" data-template-name="minio-push">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-tag"></i> Bucket</label>
+        <input type="text" id="node-input-bucket" placeholder="Bucket">
+    </div>
+    <div class="form-row">
+        <label for="node-input-prefix"><i class="fa fa-tag"></i> Prefix</label>
+        <input type="text" id="node-input-prefix" placeholder="Prefix">
+    </div>
+</script>
+<script type="text/html" data-help-name="minio-push">
+    <p>A node used to push objects to a S3 compatible server, like MinIO.</p>
+</script>
+
+<script type="text/html" data-template-name="minio-push">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-tag"></i> Bucket</label>
+        <input type="text" id="node-input-bucket" placeholder="Bucket">
+    </div>
+    <div class="form-row">
+        <label for="node-input-prefix"><i class="fa fa-tag"></i> Prefix</label>
+        <input type="text" id="node-input-prefix" placeholder="Prefix">
+    </div>
+</script>
+<script type="text/html" data-help-name="minio-listen">
+    <p>A node used to listen to events from a Minio server.</p>
+</script>
