@@ -44,7 +44,7 @@ module.exports = function(RED) {
 
             node.status({fill:"blue",shape:"dot",text:"Pushing file " + filename});
             
-            this.minioClient.putObject(this.bucketName, filename, stream, (err, objInfo) => {
+            node.minioClient.putObject(this.bucketName, filename, stream, (err, objInfo) => {
                 if (err) {
                     node.error("Could not push " + filename + ": " + err);
 
