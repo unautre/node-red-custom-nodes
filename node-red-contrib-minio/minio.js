@@ -11,7 +11,7 @@ module.exports = function(RED) {
         this.bucketName = config.bucketName;
         this.minioClient = new minio.Client({
             endPoint: config.endPoint,
-            port: config.port,
+            port: config.port * 1,
             useSSL: config.useSSL,
             accessKey: config.accessKey,
             secretKey: config.secretKey
