@@ -9,13 +9,19 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
 
         this.bucketName = config.bucketName;
-        this.minioClient = new minio.Client({
-            endPoint: config.endPoint,
-            port: config.port * 1,
-            useSSL: config.useSSL,
-            accessKey: config.accessKey,
-            secretKey: config.secretKey
-        });
+        this.minioClient = null;
+        this.getClient = function() {
+            if (this.minioClient == null) {
+                this.minioClient = new minio.Client({
+                    endPoint: config.endPoint,
+                    port: config.port * 1,
+                    useSSL: config.useSSL,
+                    accessKey: config.accessKey,
+                    secretKey: config.secretKey
+                });
+            }
+            return this.minioClient;
+        }
     }
 
     function MinioPush(config) {
@@ -26,7 +32,7 @@ module.exports = function(RED) {
         this.prefix = config.prefix;
         
         const bucket = RED.nodes.getNode(config.bucket);
-        this.minioClient = bucket.minioClient;
+        this.minioClient = bucket.getClient();
         this.bucketName = bucket.bucketName;
 
         node.on('input', function(msg) {
@@ -66,7 +72,7 @@ module.exports = function(RED) {
         this.events = [minio.ObjectCreatedAll];
         
         const bucket = RED.nodes.getNode(config.bucket);
-        this.minioClient = bucket.minioClient;
+        this.minioClient = bucket.getClient();
         this.bucketName = bucket.bucketName;
 
         this.poller = this.minioClient.listenBucketNotification(this.bucketName, this.prefix, this.suffix, this.events);
