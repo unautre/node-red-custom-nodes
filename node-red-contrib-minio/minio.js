@@ -78,7 +78,7 @@ module.exports = function(RED) {
             const filename = msg.payload;
             node.status({fill:"blue",shape:"dot",text:"Reading file " + filename + "..."});
 
-            const stream = node.minioClient.getObject(this.bucketName, filename);
+            const stream = await node.minioClient.getObject(this.bucketName, filename);
 
             const buf = await buffer(stream);
 
