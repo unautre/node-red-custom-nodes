@@ -83,7 +83,8 @@ module.exports = function(RED) {
             const buf = await buffer(stream);
 
             node.status({fill:"blue",shape:"dot",text:"Read file " + filename + " !"});
-            return {payload: buf, bucket:this.bucketName, key:filename};
+            
+            node.send({payload: buf, bucket:this.bucketName, key:filename});
         });
     }
 
