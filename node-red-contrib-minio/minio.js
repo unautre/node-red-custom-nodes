@@ -4,6 +4,7 @@ module.exports = function(RED) {
     var minio = require("minio");
     var http = require("http");
     const { Readable } = require('stream');
+    const { buffer } = require('node:stream/consumers')
 
     function MinioConfig(config) {
         RED.nodes.createNode(this, config);
@@ -62,21 +63,27 @@ module.exports = function(RED) {
         });
     }
 
-    function MinioGet(config) {
+    function MinioPull(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
         this.bucketName = config.bucketName;
-        this.prefix = config.prefix || "";
-        this.suffix = config.suffix || "";
-        this.events = [minio.ObjectCreatedAll];
+        this.prefix = config.prefix;
         
         const bucket = RED.nodes.getNode(config.bucket);
         this.minioClient = bucket.getClient();
         this.bucketName = bucket.bucketName;
 
-        node.on('input', function(msg) {
-            node.send(msg);
+        node.on('input', async function(msg) {
+            const filename = msg.payload;
+            node.status({fill:"blue",shape:"dot",text:"Reading file " + filename + "..."});
+
+            const stream = node.minioClient.getObject(this.bucketName, filename);
+
+            const buf = await buffer(stream);
+
+            node.status({fill:"blue",shape:"dot",text:"Read file " + filename + " !"});
+            return {payload: buf};
         });
     }
 
@@ -110,5 +117,6 @@ module.exports = function(RED) {
 
     RED.nodes.registerType("minio-config",MinioConfig);
     RED.nodes.registerType("minio-push", MinioPush);
+    RED.nodes.registerType("minio-pull", MinioPull);
     RED.nodes.registerType("minio-listen", MinioListen);
 }

@@ -32,6 +32,22 @@
         }
     });
 
+    RED.nodes.registerType('minio-pull',{
+        category: 'network',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            prefix: {value: ""},
+            bucket: {type:"minio-config", required:true}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "file.svg",
+        label: function() {
+            return this.name||"Pull from Minio";
+        }
+    });
+
     RED.nodes.registerType('minio-listen',{
         category: 'network',
         color: '#a6bbcf',
@@ -96,6 +112,24 @@
 </script>
 <script type="text/html" data-help-name="minio-push">
     <p>A node used to push objects to a S3 compatible server, like MinIO.</p>
+</script>
+
+<script type="text/html" data-template-name="minio-pull">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-tag"></i> Bucket</label>
+        <input type="text" id="node-input-bucket" placeholder="Bucket">
+    </div>
+    <div class="form-row">
+        <label for="node-input-prefix"><i class="fa fa-tag"></i> Prefix</label>
+        <input type="text" id="node-input-prefix" placeholder="Prefix">
+    </div>
+</script>
+<script type="text/html" data-help-name="minio-pull">
+    <p>A node used to pull objects from a S3 compatible server, like MinIO.</p>
 </script>
 
 <script type="text/html" data-template-name="minio-listen">
