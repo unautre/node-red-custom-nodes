@@ -62,6 +62,24 @@ module.exports = function(RED) {
         });
     }
 
+    function MinioGet(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        this.bucketName = config.bucketName;
+        this.prefix = config.prefix || "";
+        this.suffix = config.suffix || "";
+        this.events = [minio.ObjectCreatedAll];
+        
+        const bucket = RED.nodes.getNode(config.bucket);
+        this.minioClient = bucket.getClient();
+        this.bucketName = bucket.bucketName;
+
+        node.on('input', function(msg) {
+            node.send(msg);
+        });
+    }
+
     function MinioListen(config) {
         RED.nodes.createNode(this, config);
         var node = this;
