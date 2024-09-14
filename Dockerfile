@@ -22,6 +22,9 @@ RUN npm install --verbose \
 #RUN npm install --verbose \
 #      minio
 
+RUN npm install --verbose \
+        selenium-webdriver
+
 #RUN npm install --verbose \
 #      ./node-red-transformers/
 #        @xenova/transformers
